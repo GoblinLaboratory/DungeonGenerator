@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonMapper", "DungeonMapper\DungeonMapper.csproj", "{1A8BDB27-5B75-4F89-88BE-D3D4CBC7636D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGenerator", "DungeonGenerator\DungeonGenerator.csproj", "{FC6C03D7-9003-4714-9DB0-64991B92AA9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A8BDB27-5B75-4F89-88BE-D3D4CBC7636D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8BDB27-5B75-4F89-88BE-D3D4CBC7636D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8BDB27-5B75-4F89-88BE-D3D4CBC7636D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8BDB27-5B75-4F89-88BE-D3D4CBC7636D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC6C03D7-9003-4714-9DB0-64991B92AA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6C03D7-9003-4714-9DB0-64991B92AA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6C03D7-9003-4714-9DB0-64991B92AA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6C03D7-9003-4714-9DB0-64991B92AA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
