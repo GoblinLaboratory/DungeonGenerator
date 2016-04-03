@@ -10,9 +10,9 @@ namespace DungeonGenerator
 	public class CreateDungeon
 	{
 		enum Moves { Up, Down, Left, Right, None };
-		static Piece[] Pieces = new Piece[16]
+		static Piece[] Pieces = new Piece[15]
 			{
-			new Piece(false, false, false, false),  //none
+			//new Piece(false, false, false, false),  //none
 			new Piece(true, false, false, false),  //b
 			new Piece(false, true, false, false),  //t
 			new Piece(false, false, true, false),  //l
@@ -74,6 +74,7 @@ namespace DungeonGenerator
 		public static Piece[][] DungeonFill(Piece[][] m)
 		{
 			Random random = new Random();
+			Piece NullPiece = new Piece();
 			int w = random.Next(1, m.Length - 1);
 			int h = random.Next(1, m[0].Length - 1);
 			bool placing = true;
@@ -91,9 +92,13 @@ namespace DungeonGenerator
 				Piece cPiece = m[w][h];
 
 				//placing a piece
-				if (cPiece.Equals(new Piece()))
+				if (cPiece.Equals(NullPiece) && NoMoves == false)
 				{
 					List<Piece> select = Pieces.ToList();
+					if (cPiece.ConnectBottom == null)
+						Console.WriteLine("null");
+					else
+						Console.WriteLine(cPiece.ConnectBottom);
 					#region LINQ
 					if (Below.ConnectTop == true)
 					{
@@ -137,7 +142,7 @@ namespace DungeonGenerator
 						.Select(p => p).ToList();
 					}
 
-					if (Left.ConnectRight == true)
+					if (Left.ConnectRight == false)
 					{
 						select = select
 						.Where(p => p.ConnectLeft == false)
@@ -154,39 +159,69 @@ namespace DungeonGenerator
 					if (select.Count != 0)
 					{
 						Piece tPiece = select[random.Next(0, select.Count - 1)];
-						cPiece = tPiece;
+						cPiece.ConnectBottom = tPiece.ConnectBottom;
+						cPiece.ConnectTop = tPiece.ConnectTop;
+						cPiece.ConnectLeft = tPiece.ConnectLeft;
+						cPiece.ConnectRight = tPiece.ConnectRight;
 					}
 						
 					else
 						NoMoves = true;
 				}
-				//moving to a new block
-				else if(cPiece.GetType() == new Piece().GetType())
+				//moving to a new null block to place
+				else if(!NoMoves)
 				{
-					if (Left.Equals(new Piece()) && cPiece.ConnectLeft == true)
+					if (Left.Equals(NullPiece) && cPiece.ConnectLeft == true)
 						w -= 1;
-					else if (Right.Equals(new Piece()) && cPiece.ConnectRight == true)
+
+					else if (Right.Equals(NullPiece) && cPiece.ConnectRight == true)
 						w += 1;
-					else if (Above.Equals(new Piece()) && cPiece.ConnectTop == true)
+
+					else if (Above.Equals(NullPiece)  && cPiece.ConnectTop == true)
 						h -= 1;
-					else if (Below.Equals(new Piece()) && cPiece.ConnectBottom == true)
+						
+					else if (Below.Equals(NullPiece) && cPiece.ConnectBottom == true)
 						h += 1;
+
 					else
 						NoMoves = true;
 				}
+
+				//move to a block than can place something
 				else if(NoMoves)
 				{
-					while(NoMoves)
+					int wStart = w;
+					int hStart = h;
+					int visited = 0;
+					int maxVisit = m[w].Length * m.Length * 10;
+					cPiece = m[w][h];
+
+					while (NoMoves)
 					{
-						if (cPiece.Equals(new Piece()) && Above.ConnectBottom == false && Left.ConnectRight == false && Right.ConnectLeft == false && Below.ConnectTop == false)
+						if(LastMove != Moves.None && wStart == w && hStart == h)
+							visited++;
+
+						if(visited == maxVisit)
 						{
+							NoMoves = false;
 							placing = false;
-							NoMoves = false;
 						}
-						else if((cPiece.ConnectTop == true && Above.ConnectBottom == true)||(cPiece.ConnectLeft == true && Left.ConnectRight == true) ||(cPiece.ConnectRight == true && Right.ConnectLeft == true) ||(cPiece.ConnectBottom == true && Below.ConnectTop == true))
+
+						
+						if (cPiece.Equals(NullPiece))
 						{
 							NoMoves = false;
 						}
+						//if a move can be made after !noMoves block
+						else if(
+							(cPiece.ConnectTop == true && Above.ConnectBottom == null)
+							|| (cPiece.ConnectLeft == true && Left.ConnectRight == null)
+							|| (cPiece.ConnectRight == true &&  Right.ConnectLeft == null) 
+							|| (cPiece.ConnectBottom == true &&  Below.ConnectTop == null))
+						{
+							NoMoves = false;
+						}
+						//moves until a move can be made
 						else
 						{
 							int PossibleMoves = 0;
@@ -311,7 +346,7 @@ namespace DungeonGenerator
 								}
 							}
 
-							else if(PossibleMoves == 3)
+							else if (PossibleMoves == 3)
 							{
 								int r = random.Next(0, 2);
 								if (LastMove == Moves.Down)
@@ -643,25 +678,29 @@ namespace DungeonGenerator
 							
 							else if (PossibleMoves == 1)
 							{
-								if (cPiece.ConnectBottom == true)
+								if (cPiece.ConnectBottom == true && LastMove != Moves.Up)
 								{
 									h += 1;
 									LastMove = Moves.Down;
 								}
-								else if (cPiece.ConnectLeft == true)
+								else if (cPiece.ConnectLeft == true && LastMove != Moves.Right)
 								{
 									w -= 1;
 									LastMove = Moves.Left;
 								}
-								else if (cPiece.ConnectRight == true)
+								else if (cPiece.ConnectRight == true && LastMove != Moves.Left)
 								{
 									w += 1;
 									LastMove = Moves.Right;
 								}
-								else if (cPiece.ConnectTop == true)
+								else if (cPiece.ConnectTop == true && LastMove != Moves.Down)
 								{
 									h -= 1;
 									LastMove = Moves.Up;
+								}
+								else
+								{
+									placing = false;
 								}	
 							}
 							else
@@ -671,10 +710,6 @@ namespace DungeonGenerator
 						}
 						
 					}
-				}
-				else
-				{
-
 				}
 			}
 			return m;
