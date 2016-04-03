@@ -34,6 +34,7 @@ namespace DungeonMapper
 		public static void Main()
 		{
 			Piece[][] Map = CreateDungeon.DungeonSetup(5, 5);
+			PrintDung(Map);
 			Map = DungeonGenerator.CreateDungeon.DungeonFill(Map);
 			PrintDung(Map);
 
