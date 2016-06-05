@@ -294,23 +294,22 @@ namespace DungeonGenerator
 			
 		}
 
-		public static void PrintDung(Piece[][] Map, int w, int h)
+	public static void PrintDung(Piece[][] Map, int w, int h)
 		{
 			Piece Edge = new Piece(false, false, false, false);
 
-			for (int i = 0; i < Map.Length; i++)
+			for (int i = 0; i < Map[0].Length; i++)
 			{
-				for (int j = 0; j < Map[i].Length; j++)
+				for (int j = 0; j < Map.Length; j++)
 				{
 					Console.ResetColor();
-					if(j == w && i ==h)
+					if (j == w && i == h)
 					{
 						Console.ForegroundColor = ConsoleColor.Black;
 						Console.BackgroundColor = ConsoleColor.Red;
 					}
-
 					if (Map[j][i] != null && Edge.Equals(Map[j][i]))
-						if (j == Map[j].Length - 1)
+						if (j == Map.Length - 1)
 							Console.WriteLine("e");
 						else
 							Console.Write("e");
@@ -358,12 +357,12 @@ namespace DungeonGenerator
 		{
 			Piece Edge = new Piece(false, false, false, false);
 
-			for (int i = 0; i < Map.Length; i++)
+			for (int i = 0; i < Map[0].Length; i++)
 			{
-				for (int j = 0; j < Map[i].Length; j++)
+				for (int j = 0; j < Map.Length; j++)
 				{
 					if (Map[j][i] != null && Edge.Equals(Map[j][i]))
-						if (j == Map[j].Length - 1)
+						if (j == Map.Length - 1)
 							Console.WriteLine("e");
 						else
 							Console.Write("e");

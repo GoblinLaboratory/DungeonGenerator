@@ -11,9 +11,14 @@ namespace DungeonMapper
 	{
 		public static void Main()
 		{
-			Piece[][] Map = CreateDungeon.DungeonSetup(10, 10);
-			Map = CreateDungeon.DungeonFill(Map);
-			CreateDungeon.PrintDung(Map);
+			while(true)
+			{
+				Piece[][] Map = CreateDungeon.DungeonSetup(20, 10);
+				Map = CreateDungeon.DungeonFill(Map);
+				CreateDungeon.PrintDung(Map);
+				Console.Read();
+				Console.Clear();
+			}
 		}
 	}
 }
