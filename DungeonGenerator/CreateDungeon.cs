@@ -76,6 +76,10 @@ namespace DungeonGenerator
 		};
 		public static Piece[][] DungeonSetup(int W, int H)
 		{
+			if (W == 1 && H == 1)
+				throw new ArgumentOutOfRangeException("Width and Height of Dungeon cannot both be 1");
+			if (W < 1 || H < 1)
+				throw new ArgumentOutOfRangeException("Inputs must be greater than or equal to 1");
 			Piece[][] Width = new Piece[W + 2][];
 			Piece Edge = new Piece(false, false, false, false);
 
@@ -141,7 +145,6 @@ namespace DungeonGenerator
 					Piece Left = m[w - 1][h];
 					Piece Right = m[w + 1][h];
 					Piece cPiece = m[w][h];
-
 
 					if (pPiece == cPiece)
 						++LoopCount;
